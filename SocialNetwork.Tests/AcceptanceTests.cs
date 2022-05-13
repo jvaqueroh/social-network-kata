@@ -12,29 +12,42 @@ namespace SocialNetwork.Tests
         }
 
         [Test]
-        public void Alice_can_publish_messages_to_a_personal_timeline()
+        public void loged_in_user_can_publish_messages_to_its_personal_timeline()
         {
-            // user login
-            // user publish a message
-            // user publish another message
-            // messages are recovered in order by time
+            // given a loged-in user
+            // and the user published a message
+            // and the user published another message
+            // when the user loads its timeline
+            // then messages are recovered in order by time
             var mySocialNetwork = new MySocialNetwork();
-            const string aliceUser = "Alice";
-            Message aMessage = new("Hello My Social Network!");
-            Message anotherMessage = new("I'm Alice");
+            var userSession = GivenALogedInUserSession(mySocialNetwork, "Alice");
+            var aMessage = GivenAMessage("Hello My Social Network!");
+            var anotherMessage = GivenAMessage("I'm Alice");
             var expectedMessages = new List<Message>()
             {
-                new("Hello My Social Network!"),
-                new("I'm Alice")
+                aMessage,
+                anotherMessage
             };
 
-            var aliceSession = mySocialNetwork.Login(aliceUser);
-            aliceSession.Publish(aMessage);
-            aliceSession.Publish(anotherMessage);
+            userSession.Publish(aMessage);
+            userSession.Publish(anotherMessage);
+            
             var timeline = mySocialNetwork.GetTimeline();
             var messages = timeline.GetMessages();
 
             messages.Should().BeEquivalentTo(expectedMessages);
+        }
+
+        private static UserSession GivenALogedInUserSession(MySocialNetwork mySocialNetwork, string user)
+        {
+            var userSession = mySocialNetwork.Login(user);
+            return userSession;
+        }
+
+        private static Message GivenAMessage(string message)
+        {
+            Message aMessage = new(message);
+            return aMessage;
         }
     }
 }
