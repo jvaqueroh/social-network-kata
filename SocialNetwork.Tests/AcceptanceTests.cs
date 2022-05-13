@@ -19,7 +19,7 @@ namespace SocialNetwork.Tests
             // and the user published another message
             // when the user loads its timeline
             // then messages are recovered in order by time
-            var mySocialNetwork = new MySocialNetwork();
+            var mySocialNetwork = new MySocialNetwork(new MessageRepositoryInMemory());
             var userSession = GivenALogedInUserSession(mySocialNetwork, "Alice");
             var aMessage = GivenAMessage("Hello My Social Network!");
             var anotherMessage = GivenAMessage("I'm Alice");
