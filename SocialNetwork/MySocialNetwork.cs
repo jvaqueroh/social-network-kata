@@ -41,5 +41,12 @@
         public Message(string message)
         {
         }
+
+        public string Content { get; set; }
+    }
+    
+    public interface MessageRepository
+    {
+        void Save(Message message);
     }
 }
