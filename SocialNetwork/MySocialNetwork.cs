@@ -4,7 +4,7 @@
     {
         public UserSession Login(string user)
         {
-            return new UserSession();
+            return new UserSession(user);
         }
 
         public TimeLine GetTimeline()
@@ -23,11 +23,17 @@
 
     public class UserSession
     {
+        public string User { get; private set; }
+
+        public UserSession(string user)
+        {
+            User = user;
+        }
+
         public void Publish(Message aMessage)
         {
         }
 
-        public string User { get; set; }
     }
 
     public class Message
