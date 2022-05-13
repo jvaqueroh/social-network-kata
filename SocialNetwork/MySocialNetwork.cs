@@ -26,6 +26,8 @@
         public void Publish(Message aMessage)
         {
         }
+
+        public string User { get; set; }
     }
 
     public class Message
