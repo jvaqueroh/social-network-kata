@@ -26,7 +26,13 @@ public class MySocialNetwork
 
     public ICollection<string> GetSubscriptionsMessages(string user)
     {
-        throw new NotImplementedException();
+        var posts = new List<string>();
+        foreach (var followingUser in Users.Single(u => u.UserName.Equals(user)).FollowingUsers)
+        {
+            posts.AddRange(Users.Single(f => f.UserName.Equals(followingUser)).Posts.Select(p => p.Message));
+        }
+
+        return posts;
     }
 }
 

@@ -26,7 +26,7 @@ namespace SocialNetwork.Specs.StepDefinitions
             mySocialNetwork.AddUser(user);
             foreach (var userToFollow in followedUsers.Split(","))
             {
-                mySocialNetwork.Follow(user, userToFollow);
+                mySocialNetwork.Follow(user, userToFollow.Trim());
             }
         }
 
