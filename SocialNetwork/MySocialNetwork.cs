@@ -14,7 +14,6 @@ public class MySocialNetwork
         Users.Add(new User(userName));
     }
 
-
     public void CreatePost(string user, string message)
     {
         Users.Single(u => u.UserName.Equals(user)).Posts.Add(new Post(message));
@@ -22,7 +21,7 @@ public class MySocialNetwork
 
     public void Follow(string user, string userToFollow)
     {
-        throw new NotImplementedException();
+        Users.Single(u => u.UserName.Equals(user)).FollowingUsers.Add(userToFollow);
     }
 
     public ICollection<string> GetSubscriptionsMessages(string user)
@@ -35,11 +34,13 @@ public class User
 {
     public string UserName { get; }
     public ICollection<Post> Posts { get; set; }
+    public ICollection<string> FollowingUsers { get; set; }
 
     public User(string userName)
     {
         UserName = userName;
         Posts = new List<Post>();
+        FollowingUsers = new List<string>();
     }
 }
 

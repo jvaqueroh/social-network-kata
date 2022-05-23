@@ -22,6 +22,8 @@ namespace SocialNetwork.Specs.StepDefinitions
         [Given("user (.*) follows users (.*)")]
         public void GivenUserFollowsOtherUsers(string user, string followedUsers)
         {
+            //TODO: extract AddUser as a independent step definition
+            mySocialNetwork.AddUser(user);
             foreach (var userToFollow in followedUsers.Split(","))
             {
                 mySocialNetwork.Follow(user, userToFollow);
