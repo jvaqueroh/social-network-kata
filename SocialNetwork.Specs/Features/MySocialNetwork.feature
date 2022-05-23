@@ -7,7 +7,8 @@ Link to a feature: [MySocialNetwork](SocialNetwork.Specs/Features/MySocialNetwor
 
 @mytag
 Scenario: Subcribed user can view an aggregated list of post of user he is following
-	Given user Alice posts the message "Hi, I'm Alice"
+	Given registered users Alice, Bob, Charlie
+	And user Alice posts the message "Hi, I'm Alice"
 	And user Bob posts the message "Here Bob, whatsaaaaaaap!"
 	And user Charlie follows users Alice, Bob
 	When user Charlie gets the subscriptions

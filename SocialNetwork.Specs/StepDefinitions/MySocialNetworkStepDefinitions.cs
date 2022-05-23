@@ -12,18 +12,22 @@ namespace SocialNetwork.Specs.StepDefinitions
             this.mySocialNetwork = mySocialNetwork;
         }
 
+        [Given("registered users (.*)")]
+        public void GivenRegisteredUsers(string users)
+        {
+            users.Split(",").ToList()
+                .ForEach(u => mySocialNetwork.AddUser(u.Trim()));
+        }
+
         [Given("user (.*) posts the message (.*)")]
         public void GivenUserPostsAMessage(string user, string message)
         {
-            mySocialNetwork.AddUser(user);
             mySocialNetwork.CreatePost(user, message);
         }
 
         [Given("user (.*) follows users (.*)")]
         public void GivenUserFollowsOtherUsers(string user, string followedUsers)
         {
-            //TODO: extract AddUser as a independent step definition
-            mySocialNetwork.AddUser(user);
             foreach (var userToFollow in followedUsers.Split(","))
             {
                 mySocialNetwork.Follow(user, userToFollow.Trim());
