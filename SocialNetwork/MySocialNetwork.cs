@@ -37,7 +37,10 @@ public class MySocialNetwork
 
     public ICollection<string> GetTimeline(string user, string anotherUser)
     {
-        return new List<string>();
+        return Users
+            .Single(u => u.UserName.Equals(anotherUser))
+            .Posts.Select(p => p.Message)
+            .ToList();
     }
 }
 
