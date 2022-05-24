@@ -6,6 +6,13 @@ Link to a feature: [MySocialNetwork](SocialNetwork.Specs/Features/MySocialNetwor
 ***Further read***: **[Learn more about how to generate Living Documentation](https://docs.specflow.org/projects/specflow-livingdoc/en/latest/LivingDocGenerator/Generating-Documentation.html)**
 
 @mytag
+Scenario: Registered user can view another user's timeline
+	Given registered users Alice, Bob
+	And user Alice posts the message "Hi, I'm Alice"
+	When user Bob gets the timeline of user Alice
+	Then timeline of user Alice contains "Hi, I'm Alice"
+
+@mytag
 Scenario: Subcribed user can view an aggregated list of post of user he is following
 	Given registered users Alice, Bob, Charlie
 	And user Alice posts the message "Hi, I'm Alice"

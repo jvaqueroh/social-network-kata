@@ -34,6 +34,11 @@ public class MySocialNetwork
 
         return posts;
     }
+
+    public ICollection<string> GetTimeline(string user, string anotherUser)
+    {
+        return new List<string>();
+    }
 }
 
 public class User

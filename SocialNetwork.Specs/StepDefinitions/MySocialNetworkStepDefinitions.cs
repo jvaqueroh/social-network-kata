@@ -5,6 +5,7 @@ namespace SocialNetwork.Specs.StepDefinitions
     {
         private readonly MySocialNetwork mySocialNetwork;
         private ICollection<string> subscriptionsMessages;
+        private ICollection<string> anotherUserTimeline;
 
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
         public MySocialNetworkStepDefinitions(MySocialNetwork mySocialNetwork)
@@ -34,10 +35,22 @@ namespace SocialNetwork.Specs.StepDefinitions
             }
         }
 
+        [When("user (.*) gets the timeline of user (.*)")]
+        public void WhenUserGetsTheTimelineOfAnotherUser(string user, string anotherUser)
+        {
+            anotherUserTimeline = mySocialNetwork.GetTimeline(user, anotherUser);
+        }
+
         [When("user (.*) gets the subscriptions")]
         public void WhenUserGetsTheSubscriptions(string user)
         {
             subscriptionsMessages = mySocialNetwork.GetSubscriptionsMessages(user);
+        }
+
+        [Then("timeline of user (.*) contains (.*)")]
+        public void ThenTimelineOfAnotherUserContains(string anotherUser, string message)
+        {
+            anotherUserTimeline.Should().Contain(message);
         }
 
         [Then("subscriptions list of user (.*) contains (.*)")]
