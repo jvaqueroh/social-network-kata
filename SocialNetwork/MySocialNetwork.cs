@@ -45,7 +45,15 @@ public class MySocialNetwork
 
     public ICollection<string> GetNotificationsMessages(string user)
     {
-        return new List<string>();
+        var notifications = new List<string>();
+        foreach (var anUser in Users)
+        {
+            notifications
+                .AddRange(anUser.Posts.Where(p=>p.Message.Contains($"@{user}"))
+                .Select(p => p.Message));
+        }
+
+        return notifications;
     }
 }
 
