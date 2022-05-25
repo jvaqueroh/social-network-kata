@@ -6,6 +6,7 @@ namespace SocialNetwork.Specs.StepDefinitions
         private readonly MySocialNetwork mySocialNetwork;
         private ICollection<string> subscriptionsMessages;
         private ICollection<string> anotherUserTimeline;
+        private ICollection<string> notificationsMessages;
 
         // For additional details on SpecFlow step definitions see https://go.specflow.org/doc-stepdef
         public MySocialNetworkStepDefinitions(MySocialNetwork mySocialNetwork)
@@ -47,6 +48,12 @@ namespace SocialNetwork.Specs.StepDefinitions
             subscriptionsMessages = mySocialNetwork.GetSubscriptionsMessages(user);
         }
 
+        [When("user (.*) gets the notifications")]
+        public void WhenUserGetsTheNotifications(string user)
+        {
+            notificationsMessages = mySocialNetwork.GetNotificationsMessages(user);
+        }
+
         [Then("timeline of user (.*) contains (.*)")]
         public void ThenTimelineOfAnotherUserContains(string anotherUser, string message)
         {
@@ -57,6 +64,12 @@ namespace SocialNetwork.Specs.StepDefinitions
         public void ThenUserSubscriptionsContains(string user, string message)
         {
             subscriptionsMessages.Should().Contain(message);
+        }
+
+        [Then("notifications list of user (.*) contains (.*)")]
+        public void ThenNotificationsListOfUserContains(string user, string message)
+        {
+            notificationsMessages.Should().Contain(message);
         }
     }
 }

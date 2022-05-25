@@ -21,3 +21,10 @@ Scenario: Subcribed user can view an aggregated list of post of user he is follo
 	When user Charlie gets the subscriptions
 	Then subscriptions list of user Charlie contains "Hi, I'm Alice"
 	And subscriptions list of user Charlie contains "Here Bob, whatsaaaaaaap!"
+
+@mytag
+Scenario: User is notified when mentioned in some message of other user
+	Given registered users Bob, Charlie
+	And user Bob posts the message "Having fun with @Charlie at skatepark"
+	When user Charlie gets the notifications
+	Then notifications list of user Charlie contains "Having fun with @Charlie at skatepark"

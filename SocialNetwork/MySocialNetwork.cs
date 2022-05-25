@@ -42,6 +42,11 @@ public class MySocialNetwork
             .Posts.Select(p => p.Message)
             .ToList();
     }
+
+    public ICollection<string> GetNotificationsMessages(string user)
+    {
+        return new List<string>();
+    }
 }
 
 public class User
