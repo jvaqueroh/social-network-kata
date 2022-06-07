@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace SocialNetwork.Tests
 {
-    public class Tests
+    public class AcceptanceTests
     {
         [SetUp]
         public void Setup()
