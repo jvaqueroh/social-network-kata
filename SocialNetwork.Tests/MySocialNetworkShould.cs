@@ -22,7 +22,7 @@ namespace SocialNetwork.Tests
         }
 
         [Test]
-        public void save_a_message_posted_by_an_user()
+        public void save_a_message_posted_by_a_registered_user()
         {
             User givenUser = new User("Alice");
             var mySocialNetwork = new MySocialNetwork();
