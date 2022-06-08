@@ -20,5 +20,18 @@ namespace SocialNetwork.Tests
 
             Database.Users.Should().ContainEquivalentOf(newUser);
         }
+
+        [Test]
+        public void save_a_message_posted_by_an_user()
+        {
+            User givenUser = new User("Alice");
+            var mySocialNetwork = new MySocialNetwork();
+            mySocialNetwork.AddUser(givenUser);
+
+            var message = "Hi! I'm Alice.";
+            mySocialNetwork.Post(givenUser, message);
+
+            Database.Posts[givenUser].Should().Contain(message);
+        }
     }
 }
