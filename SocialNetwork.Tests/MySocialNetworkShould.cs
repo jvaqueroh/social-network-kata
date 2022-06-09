@@ -47,11 +47,10 @@ namespace SocialNetwork.Tests
             var timelineUser = GivenRegisterdUser("Alice");
             var firstPost = GivenRegisteredUserPostsAMessage(timelineUser, "Hi! I'm Alice.");
             var secondPost = GivenRegisteredUserPostsAMessage(timelineUser, "This is my timeline.");
-            var expectedMessages = new[] { firstPost, secondPost };
 
             var result = mySocialNetwork.GetTimeline(readerUser, timelineUser);
 
-            result.Should().BeEquivalentTo(expectedMessages);
+            result.Should().BeEquivalentTo(firstPost, secondPost);
         }
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
