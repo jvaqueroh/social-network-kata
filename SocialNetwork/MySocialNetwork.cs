@@ -17,4 +17,13 @@ public class MySocialNetwork
     {
         return Database.Posts[timelineOwnerUser];
     }
+
+    public void Subscribe(User user, User targetUser)
+    {
+    }
+
+    public ICollection<string> GetSubscriptionsAggregatedTimeline(User readerUser)
+    {
+        return new List<string>();
+    }
 }

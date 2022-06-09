@@ -27,6 +27,22 @@ namespace SocialNetwork.Tests
             result.Should().BeEquivalentTo(new[] { firstPost, secondPost});
         }
 
+        [Test]
+        public void should_allow_Charlie_to_red_aggregated_list_of_her_subscriptions()
+        {
+            var bob = GivenRegisteredUser("Bob");
+            var alice = GivenRegisteredUser("Alice");
+            var charlie = GivenRegisteredUser("Charlie");
+            mySocialNetwork.Subscribe(charlie, bob);
+            mySocialNetwork.Subscribe(charlie, alice);
+            var messageFromBob = GivenUserPostedAMessage(bob, "Hi! I'm Bob.");
+            var messageFromAlice = GivenUserPostedAMessage(alice, "Hi! I'm Alice.");
+
+            var result = mySocialNetwork.GetSubscriptionsAggregatedTimeline(charlie);
+
+            result.Should().BeEquivalentTo(messageFromBob, messageFromAlice);
+        }
+
         private string GivenUserPostedAMessage(User alice, string message)
         {
             var aPost = message;
