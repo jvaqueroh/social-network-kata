@@ -15,6 +15,6 @@ public class MySocialNetwork
 
     public ICollection<string> GetTimeline(User readerUser, User timelineOwnerUser)
     {
-        return new List<string>();
+        return Database.Posts[timelineOwnerUser];
     }
 }
