@@ -65,7 +65,7 @@ namespace SocialNetwork.Tests
         }
 
         [Test]
-        public void return_aggregated_list_of_messages_for_an_user_subscriptions()
+        public void return_aggregated_list_of_ordered_messages_for_an_user_subscriptions()
         {
             var subscriberUser = GivenRegisterdUser("Charlie");
             var targetUser1 = GivenRegisterdUser("Bob");
@@ -78,7 +78,7 @@ namespace SocialNetwork.Tests
 
             var result = mySocialNetwork.GetSubscriptionsAggregatedTimeline(subscriberUser);
 
-            result.Should().BeEquivalentTo(targetUser1FirstPost, targetUser2FirstPost, targetUser1SecondPost);
+            result.Should().Equal(targetUser1FirstPost, targetUser2FirstPost, targetUser1SecondPost);
         }
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
