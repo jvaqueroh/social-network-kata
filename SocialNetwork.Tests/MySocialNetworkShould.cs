@@ -57,11 +57,28 @@ namespace SocialNetwork.Tests
         public void subscribe_a_registered_user_to_another_user()
         {
             var subscriberUser = GivenRegisterdUser("Charlie");
-            var otheUser = GivenRegisterdUser("Bob");
+            var targetUser = GivenRegisterdUser("Bob");
             
-            mySocialNetwork.Subscribe(subscriberUser, otheUser);
+            mySocialNetwork.Subscribe(subscriberUser, targetUser);
 
-            Database.Subscriptions[subscriberUser].Should().Contain(otheUser);
+            Database.Subscriptions[subscriberUser].Should().Contain(targetUser);
+        }
+
+        [Test]
+        public void return_aggregated_list_of_messages_for_an_user_subscriptions()
+        {
+            var subscriberUser = GivenRegisterdUser("Charlie");
+            var targetUser1 = GivenRegisterdUser("Bob");
+            var targetUser2 = GivenRegisterdUser("Alice");
+            mySocialNetwork.Subscribe(subscriberUser, targetUser1);
+            mySocialNetwork.Subscribe(subscriberUser, targetUser2);
+            var targetUser1FirstPost = GivenRegisteredUserPostsAMessage(targetUser1, "Hi! I'm Bob.");
+            var targetUser2FirstPost = GivenRegisteredUserPostsAMessage(targetUser2, "Hi! I'm Alice.");
+            var targetUser1SecondPost = GivenRegisteredUserPostsAMessage(targetUser1, "This is Bob's timeline.");
+
+            var result = mySocialNetwork.GetSubscriptionsAggregatedTimeline(subscriberUser);
+
+            result.Should().BeEquivalentTo(targetUser1FirstPost, targetUser2FirstPost, targetUser1SecondPost);
         }
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
