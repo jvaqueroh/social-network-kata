@@ -53,6 +53,17 @@ namespace SocialNetwork.Tests
             result.Should().BeEquivalentTo(firstPost, secondPost);
         }
 
+        [Test]
+        public void subscribe_a_registered_user_to_another_user()
+        {
+            var subscriberUser = GivenRegisterdUser("Charlie");
+            var otheUser = GivenRegisterdUser("Bob");
+            
+            mySocialNetwork.Subscribe(subscriberUser, otheUser);
+
+            Database.Subscriptions[subscriberUser].Should().Contain(otheUser);
+        }
+
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
         {
             mySocialNetwork.Post(timelineUser, message);
