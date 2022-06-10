@@ -6,6 +6,7 @@ public class MySocialNetwork
     {
         Database.Users.Add(user);
         Database.Posts.Add(user, new List<string>());
+        Database.Subscriptions.Add(user, new List<User>());
     }
 
     public void Post(User user, string message)
@@ -20,6 +21,7 @@ public class MySocialNetwork
 
     public void Subscribe(User user, User targetUser)
     {
+        Database.Subscriptions[user].Add(targetUser);
     }
 
     public ICollection<string> GetSubscriptionsAggregatedTimeline(User readerUser)
