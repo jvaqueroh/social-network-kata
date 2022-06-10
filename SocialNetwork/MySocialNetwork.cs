@@ -26,6 +26,11 @@ public class MySocialNetwork
 
     public ICollection<string> GetSubscriptionsAggregatedTimeline(User readerUser)
     {
-        return new List<string>();
+        var aggregatedMessagesList = new List<string>();
+        foreach (var targetUser in Database.Subscriptions[readerUser])
+        {
+            aggregatedMessagesList.AddRange(Database.Posts[targetUser]);
+        }
+        return aggregatedMessagesList;
     }
 }
