@@ -51,7 +51,7 @@ namespace SocialNetwork.Tests
 
             var result = mySocialNetwork.GetTimeline(readerUser, timelineUser);
 
-            result.Should().BeEquivalentTo(firstPost, secondPost);
+            result.Should().Equal(firstPost, secondPost);
         }
 
         [Test]
