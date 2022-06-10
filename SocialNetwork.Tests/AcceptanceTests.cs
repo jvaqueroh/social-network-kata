@@ -28,7 +28,7 @@ namespace SocialNetwork.Tests
         }
 
         [Test]
-        public void should_allow_Charlie_to_red_aggregated_list_of_her_subscriptions()
+        public void should_allow_Charlie_to_read_aggregated_list_of_her_subscriptions()
         {
             var bob = GivenRegisteredUser("Bob");
             var alice = GivenRegisteredUser("Alice");
