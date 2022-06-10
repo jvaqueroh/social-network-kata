@@ -37,7 +37,8 @@ namespace SocialNetwork.Tests
             var message = "Hi! I'm Alice.";
             mySocialNetwork.Post(givenUser, message);
 
-            Database.Posts[givenUser].Should().Contain(message);
+            Database.Posts[givenUser]
+                .Should().Contain(post => post.Message.Equals(message));
         }
 
         [Test]
