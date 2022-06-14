@@ -55,11 +55,10 @@ namespace SocialNetwork.Tests
             result.Should().Equal(messageMentioningCharlie);
         }
 
-        private string GivenUserPostedAMessage(User alice, string message)
+        private string GivenUserPostedAMessage(User user, string message)
         {
-            var aPost = message;
-            mySocialNetwork.Post(alice, aPost);
-            return aPost;
+            mySocialNetwork.Post(user, message);
+            return message;
         }
 
         private User GivenRegisteredUser(string userName)
