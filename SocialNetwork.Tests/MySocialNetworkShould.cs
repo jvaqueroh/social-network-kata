@@ -11,6 +11,7 @@ namespace SocialNetwork.Tests
         [SetUp]
         public void SetUp()
         {
+            CleanDatabase();
             mySocialNetwork = new MySocialNetwork();
         }
 
@@ -102,5 +103,13 @@ namespace SocialNetwork.Tests
             mySocialNetwork.AddUser(readerUser);
             return readerUser;
         }
+        
+        private static void CleanDatabase()
+        {
+            Database.Posts.Clear();
+            Database.Users.Clear();
+            Database.Subscriptions.Clear();
+        }
+
     }
 }

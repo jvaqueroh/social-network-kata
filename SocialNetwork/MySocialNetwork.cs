@@ -41,6 +41,10 @@ public class MySocialNetwork
 
     public ICollection<string> GetMentions(User user)
     {
-        return new List<string>();
+        return Database.Posts
+            .SelectMany(p => p.Value)
+            .Select(p => p.Message)
+            .Where(m => m.Contains($"@{user.UserName}", StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
     }
 }

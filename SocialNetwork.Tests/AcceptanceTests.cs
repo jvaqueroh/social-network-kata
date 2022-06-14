@@ -11,6 +11,7 @@ namespace SocialNetwork.Tests
         [SetUp]
         public void Setup()
         {
+            CleanDatabase();
             mySocialNetwork = new MySocialNetwork();
         }
 
@@ -54,7 +55,7 @@ namespace SocialNetwork.Tests
 
             result.Should().Equal(messageMentioningCharlie);
         }
-
+        
         private string GivenUserPostedAMessage(User user, string message)
         {
             mySocialNetwork.Post(user, message);
@@ -67,5 +68,13 @@ namespace SocialNetwork.Tests
             mySocialNetwork.AddUser(aUser);
             return aUser;
         }
+        
+        private static void CleanDatabase()
+        {
+            Database.Posts.Clear();
+            Database.Users.Clear();
+            Database.Subscriptions.Clear();
+        }
+
     }
 }
