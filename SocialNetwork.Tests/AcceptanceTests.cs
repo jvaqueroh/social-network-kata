@@ -43,6 +43,18 @@ namespace SocialNetwork.Tests
             result.Should().BeEquivalentTo(messageFromBob, messageFromAlice);
         }
 
+        [Test]
+        public void should_allow_Bob_to_mention_Charlie()
+        {
+            var charlie = GivenRegisteredUser("Charlie");
+            var bob = GivenRegisteredUser("Bob");
+            var messageMentioningCharlie = GivenUserPostedAMessage(bob, "Having fun with @Charlie at the skate park.");
+
+            var result = mySocialNetwork.GetMentions(charlie);
+
+            result.Should().Equal(messageMentioningCharlie);
+        }
+
         private string GivenUserPostedAMessage(User alice, string message)
         {
             var aPost = message;

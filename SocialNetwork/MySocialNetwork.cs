@@ -38,4 +38,9 @@ public class MySocialNetwork
             .Select(p=>p.Message)
             .ToList();
     }
+
+    public ICollection<string> GetMentions(User user)
+    {
+        return new List<string>();
+    }
 }
