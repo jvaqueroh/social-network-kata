@@ -1,9 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Dynamic;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -80,6 +75,19 @@ namespace SocialNetwork.Tests
             var result = mySocialNetwork.GetSubscriptionsAggregatedTimeline(subscriberUser);
 
             result.Should().Equal(targetUser1FirstPost, targetUser2FirstPost, targetUser1SecondPost);
+        }
+
+        [Test]
+        public void return_a_list_of_messages_with_user_mentions()
+        {
+            var bob = GivenRegisterdUser("Bob");
+            var charlie = GivenRegisterdUser("Charlie");
+            var messageMentioningCharlie = GivenRegisteredUserPostsAMessage(bob, "Having fun with @Charlie at the skate park.");
+            _ = GivenRegisteredUserPostsAMessage(bob, "These are my new rollerblades!");
+
+            var result = mySocialNetwork.GetMentions(charlie);
+
+            result.Should().Equal(messageMentioningCharlie);
         }
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
