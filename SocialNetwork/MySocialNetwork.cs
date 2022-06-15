@@ -51,7 +51,7 @@ public class MySocialNetwork
 
     public void SendPrivateMessage(User senderUser, User receiverUser, string message)
     {
-        Database.PrivateMessages[receiverUser].Add(PrivateMessage.Create(message, null));
+        Database.PrivateMessages[receiverUser].Add(PrivateMessage.Create(message, senderUser));
     }
 
     public ICollection<string> GetPrivateMessages(User user)
