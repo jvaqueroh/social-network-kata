@@ -91,6 +91,18 @@ namespace SocialNetwork.Tests
             result.Should().Equal(messageMentioningCharlie);
         }
 
+        [Test]
+        public void save_a_private_message_from_an_user_to_another_user()
+        {
+            var mallory = GivenRegisterdUser("Mallory");
+            var alice = GivenRegisterdUser("Alice");
+            var aPrivateMessage = "Hi Alice! I'm Mallory. Nice to meet you.";
+
+            mySocialNetwork.SendPrivateMessage(mallory, alice, aPrivateMessage);
+
+            Database.PrivateMessages[alice].Should().Contain(m => m.Content.Equals(aPrivateMessage));
+        }
+
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
         {
             mySocialNetwork.Post(timelineUser, message);

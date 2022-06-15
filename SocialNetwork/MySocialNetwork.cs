@@ -7,6 +7,7 @@ public class MySocialNetwork
         Database.Users.Add(user);
         Database.Posts.Add(user, new List<Post>());
         Database.Subscriptions.Add(user, new List<User>());
+        Database.PrivateMessages.Add(user, new List<PrivateMessage>());
     }
 
     public void Post(User user, string message)
