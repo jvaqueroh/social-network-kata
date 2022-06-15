@@ -106,6 +106,25 @@ namespace SocialNetwork.Tests
                     m.FromUser.Equals(mallory));
         }
 
+        [Test]
+        public void get_private_messages_for_an_user()
+        {
+            var alice = GivenRegisterdUser("Alice");
+            var otherUser = GivenRegisterdUser("Mallory");
+            var aPrivateMessage = GivenAPrivateMessageFromAnUserToAnotherUser(alice, otherUser);
+
+            var result = mySocialNetwork.GetPrivateMessages(alice);
+            
+            result.Should().Equal(aPrivateMessage);
+        }
+
+        private static string GivenAPrivateMessageFromAnUserToAnotherUser(User alice, User otherUser)
+        {
+            var aPrivateMessage = "Hi Alice! I'm Mallory. Nice to meet you.";
+            Database.PrivateMessages[alice].Add(PrivateMessage.Create(aPrivateMessage, otherUser));
+            return aPrivateMessage;
+        }
+
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
         {
             mySocialNetwork.Post(timelineUser, message);
