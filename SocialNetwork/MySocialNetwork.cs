@@ -57,7 +57,7 @@ public class MySocialNetwork
     public ICollection<string> GetPrivateMessages(User user)
     {
         return Database.PrivateMessages[user]
-            .Select(p => p.Content)
+            .Select(p => $"[from {p.FromUser.UserName}] {p.Content}")
             .ToList();
     }
 }
