@@ -36,7 +36,7 @@ public class MySocialNetwork
         }
         return aggregatedPostsList
             .OrderBy(p => p.CreationDateTime)
-            .Select(p=>p.Message)
+            .Select(p => p.Message)
             .ToList();
     }
 
@@ -56,6 +56,8 @@ public class MySocialNetwork
 
     public ICollection<string> GetPrivateMessages(User user)
     {
-        return new List<string>();
+        return Database.PrivateMessages[user]
+            .Select(p => p.Content)
+            .ToList();
     }
 }
