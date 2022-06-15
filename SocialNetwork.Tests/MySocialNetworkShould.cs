@@ -100,7 +100,10 @@ namespace SocialNetwork.Tests
 
             mySocialNetwork.SendPrivateMessage(mallory, alice, aPrivateMessage);
 
-            Database.PrivateMessages[alice].Should().Contain(m => m.Content.Equals(aPrivateMessage));
+            Database.PrivateMessages[alice]
+                .Should().Contain(m => 
+                    m.Content.Equals(aPrivateMessage) && 
+                    m.FromUser.Equals(mallory));
         }
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
