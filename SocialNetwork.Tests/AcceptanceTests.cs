@@ -61,18 +61,17 @@ namespace SocialNetwork.Tests
         {
             var mallory = GivenRegisteredUser("Mallory");
             var alice = GivenRegisteredUser("Alice");
-            var privateMessage = GivenAnUserSendPrivateMessageToAnotherUser(mallory, alice);
+            var privateMessage = GivenAnUserSendPrivateMessageToAnotherUser(mallory, alice, "Hi Alice! I'm Mallory. Nice to meet you.");
 
             var result = mySocialNetwork.GetPrivateMessages(alice);
             
             result.Should().Equal(privateMessage);
         }
 
-        private string GivenAnUserSendPrivateMessageToAnotherUser(User senderUser, User receiverUser)
+        private string GivenAnUserSendPrivateMessageToAnotherUser(User senderUser, User receiverUser, string content)
         {
-            var privateMessage = "Hi Alice! I'm Mallory. Nice to meet you.";
-            mySocialNetwork.SendPrivateMessage(senderUser, receiverUser, privateMessage);
-            return privateMessage;
+            mySocialNetwork.SendPrivateMessage(senderUser, receiverUser, content);
+            return $"[from {senderUser.UserName}] {content}";
         }
 
         private string GivenUserPostedAMessage(User user, string message)

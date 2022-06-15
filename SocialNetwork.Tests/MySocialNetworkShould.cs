@@ -111,18 +111,17 @@ namespace SocialNetwork.Tests
         {
             var alice = GivenRegisterdUser("Alice");
             var otherUser = GivenRegisterdUser("Mallory");
-            var aPrivateMessage = GivenAPrivateMessageFromAnUserToAnotherUser(alice, otherUser);
+            var aPrivateMessage = GivenAPrivateMessageFromAnUserToAnotherUser(alice, otherUser, "Hi Alice! I'm Mallory. Nice to meet you.");
 
             var result = mySocialNetwork.GetPrivateMessages(alice);
             
             result.Should().Equal(aPrivateMessage);
         }
 
-        private static string GivenAPrivateMessageFromAnUserToAnotherUser(User alice, User otherUser)
+        private static string GivenAPrivateMessageFromAnUserToAnotherUser(User alice, User otherUser, string content)
         {
-            var aPrivateMessage = "Hi Alice! I'm Mallory. Nice to meet you.";
-            Database.PrivateMessages[alice].Add(PrivateMessage.Create(aPrivateMessage, otherUser));
-            return aPrivateMessage;
+            Database.PrivateMessages[alice].Add(PrivateMessage.Create(content, otherUser));
+            return $"[from {otherUser.UserName}] {content}";
         }
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
