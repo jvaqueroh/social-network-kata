@@ -47,4 +47,13 @@ public class MySocialNetwork
             .Where(m => m.Contains($"@{user.UserName}", StringComparison.InvariantCultureIgnoreCase))
             .ToList();
     }
+
+    public void SendPrivateMessage(User senderUser, User receiverUser, string message)
+    {
+    }
+
+    public ICollection<string> GetPrivateMessages(User user)
+    {
+        return new List<string>();
+    }
 }

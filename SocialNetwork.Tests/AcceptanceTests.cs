@@ -55,7 +55,26 @@ namespace SocialNetwork.Tests
 
             result.Should().Equal(messageMentioningCharlie);
         }
-        
+
+        [Test]
+        public void should_allow_Mallory_send_a_private_message_to_Alice()
+        {
+            var mallory = GivenRegisteredUser("Mallory");
+            var alice = GivenRegisteredUser("Alice");
+            var privateMessage = GivenAnUserSendPrivateMessageToAnotherUser(mallory, alice);
+
+            var result = mySocialNetwork.GetPrivateMessages(alice);
+            
+            result.Should().Equal(privateMessage);
+        }
+
+        private string GivenAnUserSendPrivateMessageToAnotherUser(User senderUser, User receiverUser)
+        {
+            var privateMessage = "Hi Alice! I'm Mallory. Nice to meet you.";
+            mySocialNetwork.SendPrivateMessage(senderUser, receiverUser, privateMessage);
+            return privateMessage;
+        }
+
         private string GivenUserPostedAMessage(User user, string message)
         {
             mySocialNetwork.Post(user, message);
