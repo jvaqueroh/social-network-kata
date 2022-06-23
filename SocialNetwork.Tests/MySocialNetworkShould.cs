@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Collections.Generic;
+using System.Dynamic;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -67,8 +68,8 @@ namespace SocialNetwork.Tests
             var subscriberUser = GivenRegisterdUser("Charlie");
             var targetUser1 = GivenRegisterdUser("Bob");
             var targetUser2 = GivenRegisterdUser("Alice");
-            mySocialNetwork.Subscribe(subscriberUser, targetUser1);
-            mySocialNetwork.Subscribe(subscriberUser, targetUser2);
+            GivenUserIsSubscribedToOtherUser(subscriberUser, targetUser1);
+            GivenUserIsSubscribedToOtherUser(subscriberUser, targetUser2);
             var targetUser1FirstPost = GivenRegisteredUserPostsAMessage(targetUser1, "Hi! I'm Bob.");
             var targetUser2FirstPost = GivenRegisteredUserPostsAMessage(targetUser2, "Hi! I'm Alice.");
             var targetUser1SecondPost = GivenRegisteredUserPostsAMessage(targetUser1, "This is Bob's timeline.");
@@ -126,15 +127,23 @@ namespace SocialNetwork.Tests
 
         private string GivenRegisteredUserPostsAMessage(User timelineUser, string message)
         {
-            mySocialNetwork.Post(timelineUser, message);
+            Database.Posts[timelineUser].Add(Post.Create(message));
             return message;
         }
 
         private User GivenRegisterdUser(string userName)
         {
-            var readerUser = new User(userName);
-            mySocialNetwork.AddUser(readerUser);
-            return readerUser;
+            var newUser = new User(userName);
+            Database.Users.Add(newUser);
+            Database.Posts.Add(newUser, new List<Post>());
+            Database.Subscriptions.Add(newUser, new List<User>());
+            Database.PrivateMessages.Add(newUser, new List<PrivateMessage>());
+            return newUser;
+        }
+        
+        private void GivenUserIsSubscribedToOtherUser(User subscriberUser, User targetUser)
+        {
+            Database.Subscriptions[subscriberUser].Add(targetUser);
         }
         
         private static void CleanDatabase()
