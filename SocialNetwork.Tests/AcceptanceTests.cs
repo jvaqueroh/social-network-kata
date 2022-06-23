@@ -1,4 +1,4 @@
-using System.Reflection.Metadata;
+using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -23,10 +23,11 @@ namespace SocialNetwork.Tests
             var firstPost = GivenUserPostedAMessage(alice, "Hi, I'm Alice!");
             var secondPost = GivenUserPostedAMessage(alice, "This is my timelime");
 
-            var result = mySocialNetwork.GetTimeline(bob, alice);
+            var result = WhenUserGetsOtherUserTimeLine(bob, alice);
 
-            result.Should().BeEquivalentTo(new[] { firstPost, secondPost});
+            ThenOtherUserPostsAreRetreived(result, firstPost, secondPost);
         }
+
 
         [Test]
         public void should_allow_Charlie_to_read_aggregated_list_of_her_subscriptions()
@@ -34,14 +35,14 @@ namespace SocialNetwork.Tests
             var bob = GivenRegisteredUser("Bob");
             var alice = GivenRegisteredUser("Alice");
             var charlie = GivenRegisteredUser("Charlie");
-            mySocialNetwork.Subscribe(charlie, bob);
-            mySocialNetwork.Subscribe(charlie, alice);
+            GivenUserSubscribesToAnotherUser(charlie, bob);
+            GivenUserSubscribesToAnotherUser(charlie, alice);
             var messageFromBob = GivenUserPostedAMessage(bob, "Hi! I'm Bob.");
             var messageFromAlice = GivenUserPostedAMessage(alice, "Hi! I'm Alice.");
 
-            var result = mySocialNetwork.GetSubscriptionsAggregatedTimeline(charlie);
+            var result = WhenUserGetsSubscriptions(charlie);
 
-            result.Should().BeEquivalentTo(messageFromBob, messageFromAlice);
+            ThenAggregatedTimelinePostsAreRetreived(result, messageFromBob, messageFromAlice);
         }
 
         [Test]
@@ -51,9 +52,9 @@ namespace SocialNetwork.Tests
             var bob = GivenRegisteredUser("Bob");
             var messageMentioningCharlie = GivenUserPostedAMessage(bob, "Having fun with @Charlie at the skate park.");
 
-            var result = mySocialNetwork.GetMentions(charlie);
+            var result = WhenUserGetsMentions(charlie);
 
-            result.Should().Equal(messageMentioningCharlie);
+            ThenPostsWithUserMentionsAreRetreived(result, messageMentioningCharlie);
         }
 
         [Test]
@@ -63,9 +64,57 @@ namespace SocialNetwork.Tests
             var alice = GivenRegisteredUser("Alice");
             var privateMessage = GivenAnUserSendPrivateMessageToAnotherUser(mallory, alice, "Hi Alice! I'm Mallory. Nice to meet you.");
 
-            var result = mySocialNetwork.GetPrivateMessages(alice);
+            var result = WhenUserGetsPrivateMessages(alice);
             
+            ThenPrivateMessagesAreRetreived(result, privateMessage);
+        }
+
+        private static void ThenOtherUserPostsAreRetreived(ICollection<string> result, string firstPost, string secondPost)
+        {
+            result.Should().BeEquivalentTo(new[] { firstPost, secondPost });
+        }
+
+        private ICollection<string> WhenUserGetsOtherUserTimeLine(User bob, User alice)
+        {
+            return mySocialNetwork.GetTimeline(bob, alice);
+        }
+
+        private static void ThenAggregatedTimelinePostsAreRetreived(ICollection<string> result, string messageFromBob,
+            string messageFromAlice)
+        {
+            result.Should().BeEquivalentTo(messageFromBob, messageFromAlice);
+        }
+
+        private ICollection<string> WhenUserGetsSubscriptions(User charlie)
+        {
+            return mySocialNetwork.GetSubscriptionsAggregatedTimeline(charlie);
+        }
+
+        private void GivenUserSubscribesToAnotherUser(User charlie, User bob)
+        {
+            mySocialNetwork.Subscribe(charlie, bob);
+        }
+
+        private static void ThenPostsWithUserMentionsAreRetreived(ICollection<string> result, string messageMentioningCharlie)
+        {
+            result.Should().Equal(messageMentioningCharlie);
+        }
+
+        private ICollection<string> WhenUserGetsMentions(User charlie)
+        {
+            var result = mySocialNetwork.GetMentions(charlie);
+            return result;
+        }
+
+        private static void ThenPrivateMessagesAreRetreived(ICollection<string> result, string privateMessage)
+        {
             result.Should().Equal(privateMessage);
+        }
+
+        private ICollection<string> WhenUserGetsPrivateMessages(User alice)
+        {
+            var result = mySocialNetwork.GetPrivateMessages(alice);
+            return result;
         }
 
         private string GivenAnUserSendPrivateMessageToAnotherUser(User senderUser, User receiverUser, string content)
@@ -93,6 +142,5 @@ namespace SocialNetwork.Tests
             Database.Users.Clear();
             Database.Subscriptions.Clear();
         }
-
     }
 }
